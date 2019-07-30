@@ -76,7 +76,7 @@ class RegisterController extends Controller
             'first_name' => 'required|max:255',   
             'last_name' => 'required|max:255',    
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|max:8',  //at least 1 digit! -> za uraditi   
+            'password' => 'required|confirmed|min:8',  //at least 1 digit! -> za uraditi   
         ]);
            
         $user = new User();

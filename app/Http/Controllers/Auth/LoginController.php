@@ -41,7 +41,7 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
-        \Log::info($credentials);
+        //\Log::info($credentials);
         try{
             if(! $token = \JWTAuth::attempt($credentials)){
                 return response()->json(['error' => 'invalid_credentials'], 401);

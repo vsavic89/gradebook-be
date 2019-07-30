@@ -16,14 +16,13 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-// Route::middleware(['jwt'])->group(function () {
-//     Route::get('/cars', 'CarController@index');
+ Route::middleware(['jwt'])->group(function () {
+     Route::get('/gradebooks', 'GradebookController@index');
 //     Route::get('/cars/{id}', 'CarController@show');
 //     Route::post('/cars', 'CarController@store');
 //     Route::put('/cars/{id}', 'CarController@update');
-//     Route::get('/delete/{id}', 'CarController@destroy');
-    
-// });
+//     Route::get('/delete/{id}', 'CarController@destroy');    
+ });
 Route::get('/');
 Route::post('/login', 'Auth\LoginController@authenticate');  
 Route::post('/register', 'Auth\RegisterController@register');  
