@@ -36,4 +36,17 @@ class ProfessorController extends Controller
 
         return $professor;
     }
+    public function onlyUnsignedProfessors()
+    {
+        $professors = DB::table('professors')
+            ->select(
+                'professors.*'             
+            )
+            ->leftjoin(
+                'gradebooks',
+                'gradebooks.professor_id','=','professors.id'
+            )->whereNull('gradebooks.professor_id')->get();
+        
+        return $professors;
+    }
 }

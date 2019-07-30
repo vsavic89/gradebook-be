@@ -23,9 +23,19 @@ class GradebookController extends Controller
             'professors.id','=','gradebooks.professor_id'
         )
         ->orderBy('gradebooks.id', 'desc')->take(10)->get();
-        
-        \Log::info($gradebooks);
 
-        return $gradebooks;//view('gradebooks.index', compact('gradebooks'));
+        return $gradebooks;
+    }
+    public function store(Request $request)
+    {
+        // dd($request);
+        // \Log::info($request);
+        $this->validate(request(), Gradebook::STORE_RULES);
+        $gradebook = new Gradebook();
+        $gradebook->name = $request['name'];
+        $gradebook->professor_id = $request['professor_id'];
+        $gradebook->save();
+
+        return $gradebook; 
     }
 }

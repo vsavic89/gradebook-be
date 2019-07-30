@@ -24,7 +24,6 @@ class CreateProfessorsGradebooksTable extends Migration
         Schema::create('gradebooks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('numberOfStudents'); 
             $table->unsignedBigInteger('professor_id')
                 ->foreign('id')
                 ->references('id')
