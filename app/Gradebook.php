@@ -5,10 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Gradebook extends Model
-{
-  /*  public function professor()
+{  
+    public function professor()
     {
         return $this->belongsTo('App\Professor');
     }
-    */
 }

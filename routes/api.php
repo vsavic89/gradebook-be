@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 
  Route::middleware(['jwt'])->group(function () {
      Route::get('/gradebooks', 'GradebookController@index');
+     Route::get('/professors', 'ProfessorController@index');
+     Route::get('/professors/{id}', 'ProfessorController@show');
 //     Route::get('/cars/{id}', 'CarController@show');
 //     Route::post('/cars', 'CarController@store');
 //     Route::put('/cars/{id}', 'CarController@update');
