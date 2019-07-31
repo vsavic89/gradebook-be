@@ -18,6 +18,11 @@ class CreateProfessorsGradebooksTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->text('imageUrl')->nullable();
+            $table->unsignedBigInteger('user_id')
+                ->foreign('id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');  
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
@@ -28,7 +33,7 @@ class CreateProfessorsGradebooksTable extends Migration
                 ->foreign('id')
                 ->references('id')
                 ->on('professors')
-                ->onDelete('cascade')->nullable();           
+                ->onDelete('cascade')->nullable();                 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

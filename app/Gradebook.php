@@ -8,7 +8,7 @@ class Gradebook extends Model
 {  
     protected $fillable = ['name', 'professor_id'];
     const STORE_RULES = [
-        'name' => 'required|unique|min:2',
+        'name' => 'required|unique:gradebooks|min:2',
     ];
     public function professor()
     {

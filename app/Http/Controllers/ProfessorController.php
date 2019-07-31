@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Professor;
+use App\ProfessorImage;
 use Illuminate\Support\Facades\DB;
 
 class ProfessorController extends Controller
@@ -48,5 +49,26 @@ class ProfessorController extends Controller
             )->whereNull('gradebooks.professor_id')->get();
         
         return $professors;
+    }
+    public function store(Request $request)
+    {
+        $this->validate(request(), Professor::STORE_RULES);
+        $professor = new Professor();
+        $professor->first_name = $request['first_name'];
+        $professor->last_name = $request['last_name'];
+        $professor->user_id = $request['user_id'];
+        $professor->imageUrl = $request['imageURLs'][0];
+        $professor->save();
+
+        $imageURLs = $request['imageURLs'];
+        
+        foreach ($imageURLs as $p) {
+            $professorImage = new ProfessorImage();
+            $professorImage->professor_id = $professor->id;
+            $professorImage->imageURL = $p;
+            $professorImage->save(); 
+        }
+
+        return $professor;
     }
 }

@@ -38,4 +38,22 @@ class GradebookController extends Controller
 
         return $gradebook; 
     }
+    public function show($param)
+    {
+        // \Log::info(request());
+        $gradebook = DB::table('gradebooks')
+            ->select(
+                'gradebooks.*',
+                'professors.first_name',
+                'professors.last_name'               
+            )
+            ->join(
+               'professors',
+               'professors.id','=','gradebooks.professor_id' 
+            )
+           ->where('professors.user_id','=',$param)
+           ->get();
+            
+        return $gradebook;
+    }
 }
