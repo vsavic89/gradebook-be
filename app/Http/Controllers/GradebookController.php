@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 class GradebookController extends Controller
 {
     public function index()
-    {                
+    {         
+        $currentPage = request()->input('current_page'); 
+        $rowsPerPage = request()->input('rows_per_page');      
         $gradebooks = DB::table('gradebooks')
         ->select(
             'gradebooks.*',
@@ -20,7 +22,7 @@ class GradebookController extends Controller
             'professors',
             'professors.id','=','gradebooks.professor_id'
         )
-        ->orderBy('gradebooks.id', 'desc')->take(10)->get();
+        ->orderBy('gradebooks.id', 'desc')->paginate($currentPage*$rowsPerPage);
 
         return $gradebooks;
     }
@@ -76,9 +78,9 @@ class GradebookController extends Controller
                     'users',
                     'users.id','=','comments.user_id'                    
                 )*/
-                ->where('professors.user_id','=',$professorID)
+                ->where('gradebooks.professor_id','=',$professorID)
                 ->get();                   
-        }else{                    
+        }else{                   
             $gradebook = DB::table('gradebooks')
                 ->select(
                     'gradebooks.*',
@@ -120,6 +122,12 @@ class GradebookController extends Controller
                 ->where('gradebooks.id','=',$id)
                 ->get();
         }     
+        // {
+        //     id,
+        //     name
+        //     gradebook: {},
+        //     studends: []
+        // }
         return $gradebook;
     }
     public function destroy($id)

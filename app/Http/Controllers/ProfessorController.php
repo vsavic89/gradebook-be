@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProfessorController extends Controller
 {
+    public function __construct()
+    {
+        
+    }
     public function index()
     {
         $onlyUnsignedProfessors = request()->input('onlyUnsignedProfessors');

@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 */
 
  Route::middleware(['jwt'])->group(function () {
-     Route::get('/gradebooks', 'GradebookController@index');
      Route::get('/professors', 'ProfessorController@index');
      Route::post('/gradebooks/create', 'GradebookController@store');
      Route::post('/professors/create', 'ProfessorController@store');
@@ -21,13 +20,14 @@ use Illuminate\Http\Request;
      Route::post('/comments', 'CommentController@store');
      Route::delete('/gradebooks/{id}', 'GradebookController@destroy');
      Route::delete('/comments/{id}', 'CommentController@destroy');     
-     Route::get('/comments/{id}', 'CommentController@show');
      Route::put('/students/{id}', 'StudentController@update');
      Route::get('/students/{id}', 'StudentController@show');
      Route::delete('/students/{id}', 'StudentController@destroy');     
-     Route::get('/gradebooks/{id}', 'GradebookController@show');     
      Route::get('/professors/{id}', 'ProfessorController@show');    
  });
 Route::get('/');
 Route::post('/login', 'Auth\LoginController@authenticate');  
 Route::post('/register', 'Auth\RegisterController@register');  
+Route::get('/gradebooks', 'GradebookController@index');
+Route::get('/comments/{id}', 'CommentController@show');
+Route::get('/gradebooks/{id}', 'GradebookController@show');     

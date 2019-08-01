@@ -15,6 +15,7 @@ class Professor extends Model
         'last_name' => 'required|max:255',  
         'user_id' => 'required|numeric'      
     ];
+
     public function gradebooks()
     {
         return $this->hasMany('App\Gradebook');
