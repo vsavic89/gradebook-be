@@ -12,25 +12,22 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
  Route::middleware(['jwt'])->group(function () {
      Route::get('/gradebooks', 'GradebookController@index');
      Route::get('/professors', 'ProfessorController@index');
      Route::post('/gradebooks/create', 'GradebookController@store');
      Route::post('/professors/create', 'ProfessorController@store');
-     Route::get('/professors/onlyUnsignedProfessors', 'ProfessorController@onlyUnsignedProfessors');
-     Route::get('/gradebooks/professors/{id}', 'GradebookController@show');     
-     Route::get('/professors/{id}', 'ProfessorController@show');
-//     Route::get('/cars/{id}', 'CarController@show');
-//     Route::post('/cars', 'CarController@store');
-//     Route::put('/cars/{id}', 'CarController@update');
-//     Route::get('/delete/{id}', 'CarController@destroy');    
+     Route::post('/students', 'StudentController@store');
+     Route::post('/comments', 'CommentController@store');
+     Route::delete('/gradebooks/{id}', 'GradebookController@destroy');
+     Route::delete('/comments/{id}', 'CommentController@destroy');     
+     Route::get('/comments/{id}', 'CommentController@show');
+     Route::put('/students/{id}', 'StudentController@update');
+     Route::get('/students/{id}', 'StudentController@show');
+     Route::delete('/students/{id}', 'StudentController@destroy');     
+     Route::get('/gradebooks/{id}', 'GradebookController@show');     
+     Route::get('/professors/{id}', 'ProfessorController@show');    
  });
 Route::get('/');
 Route::post('/login', 'Auth\LoginController@authenticate');  
 Route::post('/register', 'Auth\RegisterController@register');  
-//Route::get('/register', 'Auth\RegisterController@create');
-//Route::resource('cars', 'CarController');

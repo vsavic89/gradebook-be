@@ -11,7 +11,18 @@ class ProfessorController extends Controller
 {
     public function index()
     {
-        $professors = DB::table('professors')
+        $onlyUnsignedProfessors = request()->input('onlyUnsignedProfessors');
+        if($onlyUnsignedProfessors){
+            $professors = DB::table('professors')
+            ->select(
+                'professors.*'             
+            )
+            ->leftjoin(
+                'gradebooks',
+                'gradebooks.professor_id','=','professors.id'
+            )->whereNull('gradebooks.professor_id')->get(); 
+        }else{
+            $professors = DB::table('professors')
             ->select(
                 'professors.*',
                 'gradebooks.name as gradebook_name'                
@@ -20,7 +31,7 @@ class ProfessorController extends Controller
                 'gradebooks',
                 'gradebooks.professor_id','=','professors.id'
             )->get();
-        
+        }
         return $professors;
     }
     public function show($id)
@@ -36,19 +47,6 @@ class ProfessorController extends Controller
         )->where('professors.id', '=', $id)->get();
 
         return $professor;
-    }
-    public function onlyUnsignedProfessors()
-    {
-        $professors = DB::table('professors')
-            ->select(
-                'professors.*'             
-            )
-            ->leftjoin(
-                'gradebooks',
-                'gradebooks.professor_id','=','professors.id'
-            )->whereNull('gradebooks.professor_id')->get();
-        
-        return $professors;
     }
     public function store(Request $request)
     {
