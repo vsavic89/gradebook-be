@@ -31,7 +31,7 @@ class StudentController extends Controller
     }
     public function show($id)
     {
-        $gradebookID = $id;// request()->input('gradebookID');
+        $gradebookID = $id;
         if($gradebookID){
             $student = DB::table('students_gradebooks')
             ->select(
@@ -56,7 +56,6 @@ class StudentController extends Controller
     }
     public function update(Request $request, $id)
     {
-        \Log::info($request);
         $this->validate(request(), Student::STORE_RULES);
         $student = Student::findOrFail($id);
         $student->first_name = $request['first_name'];
