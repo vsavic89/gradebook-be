@@ -29,7 +29,8 @@ class ProfessorController extends Controller
             $professors = DB::table('professors')
             ->select(
                 'professors.*',
-                'gradebooks.name as gradebook_name'                
+                'gradebooks.name as gradebook_name',
+                'gradebooks.id as gradebookID'               
             )
             ->leftjoin(
                 'gradebooks',
