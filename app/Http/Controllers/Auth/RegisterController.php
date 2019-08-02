@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -38,7 +39,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('jwt', ['only' => 'logout']);
     }
 
     /**
@@ -72,23 +73,59 @@ class RegisterController extends Controller
     }
     public function register(Request $request)
     {
-        $this->validate(request(), [
+        $validated = $this->validate(request(), [
             'first_name' => 'required|max:255',   
             'last_name' => 'required|max:255',    
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:8',  //at least 1 digit! -> za uraditi   
+            'password' => 'required|confirmed|min:8',
+            'accept_terms_and_conditions' => 'required'            
         ]);
-           
-        $user = new User();
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
+        if(!(($validated['accept_terms_and_conditions'] === true) || ($validated['accept_terms_and_conditions'] === 1)))
+        {
+            return response()->json(
+                array (
+                    'message' => 'The given data was invalid.',
+                    'errors' => 
+                    array (
+                      'accept_terms_and_conditions' => 
+                      array (
+                        0 => 'You must accept terms and conditions in order to proceed.',
+                      ),
+                    ),        
+                ), 401);
+        }
+        else{
+            $arrayDigits = ['0','1','2','3','4','5','6','7','8','9'];
+            $proceed = false;
+            foreach($arrayDigits as $digit){
+                if(strpos($validated['password'], $digit)){
+                    $proceed = true;
+                    break;
+                }
+            }
+            if ($proceed === false){                
+                return response()->json(
+                    array (
+                        'message' => 'The given data was invalid.',
+                        'errors' => 
+                        array (
+                          'password_digit_check' => 
+                          array (
+                            0 => 'Password must contain at lease 1 digit!',
+                          ),
+                        ),        
+                    ), 401                    
+                );
+            }else{
+                $user = new User();
+                $user->first_name = $request->input('first_name');
+                $user->last_name = $request->input('last_name');
+                $user->email = $request->input('email');
+                $user->password = bcrypt($request->input('password'));
+                $user->save();
 
-        // Session::flash('message', 'Super, registrovan si!');
-        
-        // return redirect()->route('/');
-        
+                return response()->json(['success' => 'You registered successfully, please login.']);                
+            }
+        }
     }
 }

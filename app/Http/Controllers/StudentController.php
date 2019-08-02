@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt');   
+    }
     public function store(Request $request)
     {                    
         $count = count(reset($request));        

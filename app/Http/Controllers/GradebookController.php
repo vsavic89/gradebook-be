@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class GradebookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt', ['except' => ['index', 'show']]);   
+    }
     public function index()
     {         
         $currentPage = request()->input('current_page'); 

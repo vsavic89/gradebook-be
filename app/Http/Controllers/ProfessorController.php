@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 class ProfessorController extends Controller
 {
     public function __construct()
-    {
-        
+    {        
+         $this->middleware('jwt');               
     }
     public function index()
     {
@@ -43,11 +43,18 @@ class ProfessorController extends Controller
         $professor = DB::table('professors')
         ->select(
             'professors.*',
-            'gradebooks.name as gradebook_name'                
+            'gradebooks.name as gradebook_name',
+            'students.id as studentID'                
         )
         ->leftjoin(
             'gradebooks',
             'gradebooks.professor_id','=','professors.id'
+        )->leftjoin(
+            'students_gradebooks',
+            'students_gradebooks.gradebook_id','=','gradebooks.id'
+        )->leftjoin(
+            'students',
+            'students_gradebooks.student_id','=','students.id'        
         )->where('professors.id', '=', $id)->get();
 
         return $professor;

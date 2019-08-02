@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+         $this->middleware('jwt', ['except' => 'show']);   
+    }
+
     public function show($gradebookID)
     {
         $comments = DB::table('comments')
