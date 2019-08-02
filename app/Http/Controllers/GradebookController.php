@@ -51,12 +51,7 @@ class GradebookController extends Controller
                     'professors.last_name',
                     'students.first_name as studentFirstName',
                     'students.last_name as studentLastName',
-                    'students.imageURL as studentImageURL'//,
-                    // 'users.first_name as userFirstName',
-                    // 'users.last_name as userLastName',
-                    // 'comments.content as commentContent',
-                    // 'comments.created_at as commentCreatedAt',
-                    // 'comments.id as commentID' 
+                    'students.imageURL as studentImageURL'
                 )
                 ->leftjoin(
                     'professors',
@@ -69,19 +64,7 @@ class GradebookController extends Controller
                 ->leftjoin(
                     'students',
                     'students.id','=','students_gradebooks.student_id'
-                )/*
-                ->leftjoin(
-                    'comments_gradebooks',
-                    'comments_gradebooks.gradebook_id','=','gradebooks.id'
                 )
-                ->leftjoin(
-                    'comments',
-                    'comments.id','=','comments_gradebooks.comment_id'
-                )
-                ->leftjoin(
-                    'users',
-                    'users.id','=','comments.user_id'                    
-                )*/
                 ->where('gradebooks.professor_id','=',$professorID)
                 ->get();                   
         }else{                   
@@ -92,12 +75,7 @@ class GradebookController extends Controller
                     'professors.last_name',
                     'students.first_name as studentFirstName',
                     'students.last_name as studentLastName',
-                    'students.imageURL as studentImageURL'//,
-                    // 'users.first_name as userFirstName',
-                    // 'users.last_name as userLastName',
-                    // 'comments.content as commentContent' ,
-                    // 'comments.created_at as commentCreatedAt',
-                    // 'comments.id as commentID' 
+                    'students.imageURL as studentImageURL'
                 )
                 ->leftjoin(
                     'professors',
@@ -111,27 +89,9 @@ class GradebookController extends Controller
                     'students',
                     'students.id','=','students_gradebooks.student_id'
                 )
-                /*->leftjoin(
-                    'comments_gradebooks',
-                    'comments_gradebooks.gradebook_id','=','gradebooks.id'
-                )
-                ->leftjoin(
-                    'comments',
-                    'comments.id','=','comments_gradebooks.comment_id'
-                )
-                ->leftjoin(
-                    'users',
-                    'users.id','=','comments.id'                    
-                )*/
                 ->where('gradebooks.id','=',$id)
                 ->get();
         }     
-        // {
-        //     id,
-        //     name
-        //     gradebook: {},
-        //     studends: []
-        // }
         return $gradebook;
     }
     public function destroy($id)
